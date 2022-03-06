@@ -99,6 +99,8 @@ Timer<> getTimer();
 bool getDetectState();
 bool flipDetectState();
 
+
+#ifndef CDPCFG_SPARKFUN_APOLLO3
 /**
  * @brief Save / Write Wifi credentials to EEPROM
  *
@@ -121,6 +123,7 @@ String loadWifiSsid();
  * @returns A string representing the WiFi password
  */
 String loadWifiPassword();
-
+#endif
 } // namespace duckutils
+
 #endif

@@ -13,7 +13,6 @@
 
 #include <Arduino.h>
 
-#include "../DuckDisplay.h"
 #include "../DuckError.h"
 #include "../DuckLogger.h"
 #include "cdpcfg.h"
@@ -55,11 +54,8 @@ typedef struct {
  *
  */
 class DuckRadio {
-  friend class Duck;
-  friend class DuckDetect;
-  friend class DuckLink;
+  friend class AgnoDuck;
   friend class MamaDuck;
-  friend class PapaDuck;
 
 private:
   // Everything is private to force Duck (and Duck descendants) to be the only
@@ -190,8 +186,6 @@ private:
 
   DuckRadio(DuckRadio const&) = delete;
   DuckRadio& operator=(DuckRadio const&) = delete;
-
-  DuckDisplay* display = DuckDisplay::getInstance();
   int err;
   int channel;  
 };

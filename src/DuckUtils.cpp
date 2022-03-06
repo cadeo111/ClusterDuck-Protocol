@@ -73,7 +73,7 @@ uint32_t toUnit32(const byte* data) {
     value |= data[3];
     return value;
 }
-
+#ifndef CDPCFG_SPARKFUN_APOLLO3
 int saveWifiCredentials(String ssid, String password) {
   EEPROM.begin(512);
 
@@ -125,5 +125,6 @@ String loadWifiPassword() {
   loginfo("Reading EEPROM Password: " + epass);
   return epass;
 }
+#endif
 
 } // namespace duckutils

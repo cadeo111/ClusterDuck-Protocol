@@ -190,8 +190,27 @@
 // Wifi module
 #define CDPCFG_WIFI_NONE
 //===== BOARD "Heltec Cube Cell Board ASR6501 with SX1262" =====
+#elif defined(ARDUINO_ARCH_APOLLO3)
+
+#define CDPCFG_SPARKFUN_APOLLO3
+
+
+#define CDPCFG_PIN_LORA_CS D36
+#define CDPCFG_PIN_LORA_DIO0 D39 // BUSY PIN
+#define CDPCFG_PIN_LORA_DIO1 D40
+#define CDPCFG_PIN_LORA_DIO2 -1
+#define CDPCFG_PIN_LORA_RST D44
+
+#define CDPCFG_LORA_CLASS SX1262
+
+// Wifi module
+#define CDPCFG_WIFI_NONE
+//===== BOARD "Sparkfun Artimis Board with SX1262" =====
 
 #elif defined(CubeCell_GPS)
+
+
+
 
 #define CDPCFG_HELTEC_CUBE_CELL
 
