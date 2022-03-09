@@ -46,14 +46,22 @@ int DuckRadio::setupRadio(LoraConfigParams config) {
     lora = new Module(config.ss, config.di0, config.rst, config.di1);
 #endif
 
-
+#ifdef CDPCFG_SPARKFUN_APOLLO3
+    int rc = lora.begin(915.0, config.bw, config.sf, CDPCFG_SPARKFUN_APOLLO3_CODING_RATE,
+                        CDPCFG_DEFAULT_SYNC_WORD,
+                        config.txPower,
+                        CDPCFG_SPARKFUN_APOLLO3_PREAMBLE_LENGTH,
+                        CDPCFG_SPARKFUN_APOLLO3_TCXO_VOLTAGE,
+                        CDPCFG_SPARKFUN_APOLLO3_USE_REGULATOR_LDO);
+#elif
     int rc = lora.begin();
-
+#endif
     if (rc != RADIOLIB_ERR_NONE) {
         logerr("ERROR  initializing LoRa driver. state = ");
         logerr(rc);
         return DUCKLORA_ERR_BEGIN;
     }
+#ifndef CDPCFG_SPARKFUN_APOLLO3
 
     // Lora is started, we need to set all the radio parameters, before it can
     // start receiving packets
@@ -81,27 +89,32 @@ int DuckRadio::setupRadio(LoraConfigParams config) {
         return DUCKLORA_ERR_SETUP;
     }
 
-#ifndef CDPCFG_SPARKFUN_APOLLO3
+
     rc = lora.setGain(config.gain);
     if (rc == RADIOLIB_ERR_INVALID_GAIN) {
         logerr("ERROR  gain is invalid");
         return DUCKLORA_ERR_SETUP;
     }
+
 #endif
 #ifdef CDPCFG_SPARKFUN_APOLLO3
     // set the interrupt handler to execute when packet tx or rx is done.
     lora.setDio1Action(config.func);
+
 #else
     // set the interrupt handler to execute when packet tx or rx is done.
     lora.setDio0Action(config.func);
 #endif
-
+#ifndef CDPCFG_SPARKFUN_APOLLO3
     // set sync word to private network
-    rc = lora.setSyncWord(0x12);
+    rc = lora.setSyncWord(CDPCFG_DEFAULT_SYNC_WORD);
     if (rc != RADIOLIB_ERR_NONE) {
         logerr("ERROR  sync word is invalid");
         return DUCKLORA_ERR_SETUP;
     }
+
+#endif
+
 
     rc = lora.startReceive();
 
@@ -169,7 +182,7 @@ int DuckRadio::readReceivedData(std::vector <byte> *packetBytes) {
     data_section.insert(data_section.end(), &data[DATA_POS], &data[packet_length]);
     uint32_t packet_data_crc = duckutils::toUnit32(&data[DATA_CRC_POS]);
     uint32_t computed_data_crc =
-            CRC32::calculate(data_section.data(), data_section.size());
+                     CRC32::calculate(data_section.data(), data_section.size());
     if (computed_data_crc != packet_data_crc) {
         logerr("ERROR data crc mismatch: received: " + String(packet_data_crc) +
                " calculated:" + String(computed_data_crc));
@@ -179,9 +192,9 @@ int DuckRadio::readReceivedData(std::vector <byte> *packetBytes) {
     loginfo("RX: rssi: " + String(lora.getRSSI()) +
             " snr: " + String(lora.getSNR()) +
 #ifndef CDPCFG_SPARKFUN_APOLLO3
-            " fe: " + String(lora.getFrequencyError(true)) +
+                    " fe: " + String(lora.getFrequencyError(true)) +
 #endif
-            " size: " + String(packet_length));
+                    " size: " + String(packet_length));
 
     if (rxState != RADIOLIB_ERR_NONE) {
         return rxState;
@@ -284,9 +297,9 @@ void DuckRadio::serviceInterruptFlags() {
             radio_sending = false;
             startReceive();
         }else if(radio_receiving){
-            loginfo("Interrupt was called while recieving data");
+            loginfo("Interrupt was called while recieving data, meaning data received");
             DuckRadio::setReceiveFlag(true);
-            radio_sending = false;
+            radio_receiving = false;
         }
         // reset interrupt flag
         interruptFired = false;

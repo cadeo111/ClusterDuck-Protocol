@@ -92,8 +92,8 @@
 #define CDPCFG_PIN_LORA_DIO1 -1
 
 // T-Beam
- #elif defined(ARDUINO_T_Beam)
-  #define CDPCFG_PIN_BAT 35 
+#elif defined(ARDUINO_T_Beam)
+#define CDPCFG_PIN_BAT 35
   #define CDPCFG_BAT_MULDIV 200 / 100 
   #define CDPCFG_PIN_LED1 25 
   // Lora configurations 
@@ -193,7 +193,13 @@
 #elif defined(ARDUINO_ARCH_APOLLO3)
 
 #define CDPCFG_SPARKFUN_APOLLO3
-
+//SX1262.h: LoRa coding rate denominator. Defaults to 7 (coding rate 4/7)
+#define CDPCFG_SPARKFUN_APOLLO3_CODING_RATE 5
+//SX1262.h: TCXO reference voltage to be set on DIO3. Defaults to 1.6 V, set to 0 to skip.
+#define CDPCFG_SPARKFUN_APOLLO3_TCXO_VOLTAGE 0
+#define CDPCFG_SPARKFUN_APOLLO3_PREAMBLE_LENGTH 10 // defaults to 8 in SX1262.h
+//SX126x.h: use the LDO instead of DC-DC converter (default false). This is necessary for some modules such as the LAMBDA from RF solutions.
+#define CDPCFG_SPARKFUN_APOLLO3_USE_REGULATOR_LDO false
 
 #define CDPCFG_PIN_LORA_CS D36
 #define CDPCFG_PIN_LORA_DIO0 D39 // BUSY PIN
@@ -430,6 +436,9 @@
 #define CDPCFG_PIN_RGBLED_G 4
 /// CDP RGB Led BLUE Pin default value
 #define CDPCFG_PIN_RGBLED_B 2
+
+/// CDP LoRa default sync word;
+#define CDPCFG_DEFAULT_SYNC_WORD 0x12
 
 /// CDP Channel Frequencies
 #define CHANNEL_1 915.0
