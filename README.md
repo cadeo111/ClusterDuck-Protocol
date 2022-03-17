@@ -1,5 +1,8 @@
 # Modified version of the cluster duck protocol to use with the Sparkfun ExpLoRaBLE
 
+This does not support wifi and some functionality is removed or modified in for the ducks
+
+it is aimed at running with PlatformIO
 
 
 
