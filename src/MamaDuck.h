@@ -60,7 +60,7 @@ public:
 
     bool getDetectState();
 
-    void handleReceivedPacket();
+    void handleReceivedPacket(); virtual
     /**
      * @brief Handles if there were any acks addressed to this duck.
      *
