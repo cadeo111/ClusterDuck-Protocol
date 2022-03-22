@@ -19,6 +19,9 @@ int MamaDuck::setupWithDefaults(std::vector<byte> deviceId) {
         return err;
     }
 
+    // setup in receive mode first
+    startReceive();
+
 
     duckutils::getTimer().every(CDPCFG_MILLIS_ALIVE, imAlive);
 
