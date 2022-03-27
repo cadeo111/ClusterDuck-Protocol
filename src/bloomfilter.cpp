@@ -46,20 +46,17 @@ BloomFilter::BloomFilter(int numSectors, int numHashes, int bitsPerSector, int m
         logdbg("Memory allocation for seeds failed!\n");
         exit(0);
     }
-#ifndef CDPCFG_SPARKFUN_APOLLO3
     // for some reason on the apollo3 time does not give a very good random number generator
     // so you need to make sure to call it somewhere else with some good randomness
     // like a number made from reading the last byte of reading an unconnected analog in pin multiple times
-    srand(time(NULL));
-#endif
+//    srand(time(NULL));
+
     int i;
     for (i = 0; i < numHashes; i++){
         int r = rand();
-#ifdef CDPCFG_SPARKFUN_APOLLO3
         if(r == 0){
             logwarn("rand seems to be uninitialized, make sure you call srand");
         }
-#endif
         // Ensure we have no repeat seeds
         int seedCollision = 1;
         while (seedCollision == 1) {
