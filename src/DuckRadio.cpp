@@ -47,7 +47,7 @@ int DuckRadio::setupRadio(LoraConfigParams config) {
 #endif
 
 #ifdef CDPCFG_SPARKFUN_APOLLO3
-    int rc = lora.begin(915.0, config.bw, config.sf, CDPCFG_SPARKFUN_APOLLO3_CODING_RATE,
+    int rc = lora.begin(config.band, config.bw, config.sf, CDPCFG_SPARKFUN_APOLLO3_CODING_RATE,
                         CDPCFG_DEFAULT_SYNC_WORD,
                         config.txPower,
                         CDPCFG_SPARKFUN_APOLLO3_PREAMBLE_LENGTH,
@@ -242,43 +242,78 @@ int DuckRadio::sleep() { return lora.sleep(); }
 
 void DuckRadio::processRadioIrq() {}
 
-void DuckRadio::setChannel(int channelNum) {
+void DuckRadio::setChannel(int channelNum, bool isEU) {
     logdbg("Setting Channel to : ");
     logdbg(channelNum);
 
     int err;
-    switch (channelNum) {
-        case 2:
-            loginfo("Set channel: " + String(channelNum));
-            err = lora.setFrequency(CHANNEL_2);
-            lora.startReceive();
-            break;
-        case 3:
-            loginfo("Set channel: " + String(channelNum));
-            err = lora.setFrequency(CHANNEL_3);
-            lora.startReceive();
-            break;
-        case 4:
-            loginfo("Set channel: " + String(channelNum));
-            err = lora.setFrequency(CHANNEL_4);
-            lora.startReceive();
-            break;
-        case 5:
-            loginfo("Set channel: " + String(channelNum));
-            err = lora.setFrequency(CHANNEL_5);
-            lora.startReceive();
-            break;
-        case 6:
-            loginfo("Set channel: " + String(channelNum));
-            err = lora.setFrequency(CHANNEL_6);
-            lora.startReceive();
-            break;
-        case 1:
-        default:
-            loginfo("Set channel: " + String(channelNum));
-            err = lora.setFrequency(CHANNEL_1);
-            lora.startReceive();
-            break;
+    if(isEU) {
+        switch (channelNum) {
+            case 2:
+                loginfo("Set channel: " + String(channelNum));
+                err = lora.setFrequency(CHANNEL_2_EU);
+                lora.startReceive();
+                break;
+            case 3:
+                loginfo("Set channel: " + String(channelNum));
+                err = lora.setFrequency(CHANNEL_3_EU);
+                lora.startReceive();
+                break;
+            case 4:
+                loginfo("Set channel: " + String(channelNum));
+                err = lora.setFrequency(CHANNEL_4_EU);
+                lora.startReceive();
+                break;
+            case 5:
+                loginfo("Set channel: " + String(channelNum));
+                err = lora.setFrequency(CHANNEL_5_EU);
+                lora.startReceive();
+                break;
+            case 6:
+                loginfo("Set channel: " + String(channelNum));
+                err = lora.setFrequency(CHANNEL_6_EU);
+                lora.startReceive();
+                break;
+            case 1:
+            default:
+                loginfo("Set channel: " + String(channelNum));
+                err = lora.setFrequency(CHANNEL_1_EU);
+                lora.startReceive();
+                break;
+        }
+        switch (channelNum) {
+            case 2:
+                loginfo("Set channel: " + String(channelNum));
+                err = lora.setFrequency(CHANNEL_2);
+                lora.startReceive();
+                break;
+            case 3:
+                loginfo("Set channel: " + String(channelNum));
+                err = lora.setFrequency(CHANNEL_3);
+                lora.startReceive();
+                break;
+            case 4:
+                loginfo("Set channel: " + String(channelNum));
+                err = lora.setFrequency(CHANNEL_4);
+                lora.startReceive();
+                break;
+            case 5:
+                loginfo("Set channel: " + String(channelNum));
+                err = lora.setFrequency(CHANNEL_5);
+                lora.startReceive();
+                break;
+            case 6:
+                loginfo("Set channel: " + String(channelNum));
+                err = lora.setFrequency(CHANNEL_6);
+                lora.startReceive();
+                break;
+            case 1:
+            default:
+                loginfo("Set channel: " + String(channelNum));
+                err = lora.setFrequency(CHANNEL_1);
+                lora.startReceive();
+                break;
+        }
     }
     if (err != RADIOLIB_ERR_NONE) {
         logerr("ERROR Failed to set channel");

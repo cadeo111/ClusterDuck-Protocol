@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/ClusterDuck-Protocol.iml" filepath="$PROJECT_DIR$/.idea/ClusterDuck-Protocol.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ClusterDuck-Protocol2.iml" filepath="$PROJECT_DIR$/.idea/ClusterDuck-Protocol2.iml" />
     </modules>
   </component>
 </project>

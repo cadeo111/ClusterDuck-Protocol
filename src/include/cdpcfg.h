@@ -411,7 +411,7 @@
 /// Frequency Range. Set for US Region 915.0Mhz
 #define CDPCFG_RF_LORA_FREQ 915.0
 #define CDPCFG_RF_LORA_FREQ_HZ 915000000
-/// Bandwidth. Default is 125Mhz
+/// Bandwidth. Default is 125 Khz
 #define CDPCFG_RF_LORA_BW 125.0
 /// Spread Factor
 #define CDPCFG_RF_LORA_SF 7
@@ -441,12 +441,28 @@
 #define CDPCFG_DEFAULT_SYNC_WORD 0x12
 
 /// CDP Channel Frequencies
+
+/// US CHANNEL FREQUENCIES
+
+// mid is 915
+// min/max 902/928
 #define CHANNEL_1 915.0
 #define CHANNEL_2 914.0
 #define CHANNEL_3 913.0
 #define CHANNEL_4 912.0
 #define CHANNEL_5 911.0
 #define CHANNEL_6 910.0
+
+// EU CHANNEL FREQUENCIES
+
+// mid is 866.5 but usual freq is 868
+// min/max  863/870
+#define CHANNEL_1_EU 868.0
+#define CHANNEL_2_EU 867.0
+#define CHANNEL_3_EU 866.0
+#define CHANNEL_4_EU 865.0
+#define CHANNEL_5_EU 864.0
+#define CHANNEL_6_EU 869.0
 
 /// Default LoRa Module supported chipset when using the RadioLib library
 #if !defined(CDPCFG_LORA_CLASS) && !defined(CDPCFG_HELTEC_CUBE_CELL)

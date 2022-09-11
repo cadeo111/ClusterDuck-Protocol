@@ -134,8 +134,8 @@ void AgnoDuck::setSyncWord(byte syncWord) {
   duckRadio.setSyncWord(syncWord);
 }
 
-void AgnoDuck::setChannel(int channelNum) {
-  duckRadio.setChannel(channelNum);
+void AgnoDuck::setChannel(int channelNum, bool isEU) {
+  duckRadio.setChannel(channelNum, isEU);
 }
 
 

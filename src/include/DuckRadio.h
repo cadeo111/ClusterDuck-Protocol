@@ -42,6 +42,7 @@ typedef struct {
     uint8_t sf;
     /// gain
     uint8_t gain;
+
     /// interrupt service routine function when di0 activates
     void (*func)(void);
 } LoraConfigParams;
@@ -55,6 +56,7 @@ typedef struct {
  */
 class DuckRadio {
     friend class AgnoDuck;
+
     friend class MamaDuck;
 
 private:
@@ -88,7 +90,7 @@ private:
      * @param length length of the byte buffer
      * @return int
      */
-    int sendData(byte* data, int length);
+    int sendData(byte *data, int length);
 
     /**
      * @brief Send packet data out into the mesh network
@@ -112,14 +114,15 @@ private:
      * @param length data length in bytes
      * @returns DUCK_ERR_NONE if the call was successful, an error code otherwise.
      */
-    int startTransmitData(byte* data, int length);
+    int startTransmitData(byte *data, int length);
 
     /**
     * @brief change the duck channel.
     *
     * @param channelNum set the channel number 1-6.
+    * @param isEU setSpectrum for EU use if needed
     */
-    void setChannel(int channelNum);
+    void setChannel(int channelNum, bool isEU);
 
     /**
      * @brief Get the current RSSI value.
@@ -166,7 +169,7 @@ public:
  * @param  packetBytes byte buffer to contain the data
  * @return DUCK_ERR_NONE if the chip is sucessfuly set in standby mode, an error code otherwise.
  */
-    int readReceivedData(std::vector<byte>* packetBytes);
+    int readReceivedData(std::vector<byte> *packetBytes);
 
 /**
  * @brief Send packet data out into the mesh network
@@ -174,19 +177,25 @@ public:
  * @param packet Duckpacket object that contains the data to send
  * @return DUCK_ERR_NONE if the message was sent successfully, an error code otherwise.
  */
-    int relayPacket(DuckPacket* packet);
+    int relayPacket(DuckPacket *packet);
 
 private:
     static volatile uint16_t interruptFlags;
+
     void serviceInterruptFlags();
+
     static void onInterrupt();
 
     static volatile bool receivedFlag;
+
     static void setReceiveFlag(bool value) { receivedFlag = value; }
+
     static bool getReceiveFlag() { return receivedFlag; }
 
-    DuckRadio(DuckRadio const&) = delete;
-    DuckRadio& operator=(DuckRadio const&) = delete;
+    DuckRadio(DuckRadio const &) = delete;
+
+    DuckRadio &operator=(DuckRadio const &) = delete;
+
     int err;
     int channel;
 };

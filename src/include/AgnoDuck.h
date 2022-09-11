@@ -104,8 +104,9 @@ public:
      * @brief Set radio channel to transmit and receive on.
      *
      * @param channelNum set radio channel 1-5
+     * @param isEU setSpectrum for EU use if needed
      */
-    void setChannel(int channelNum);
+    void setChannel(int channelNum, bool isEU);
 
 
     /**
