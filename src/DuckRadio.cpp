@@ -35,6 +35,8 @@ DuckRadio::DuckRadio() {}
 
 int DuckRadio::setupRadio(LoraConfigParams config) {
     logwarn_f("~~ Selected Radio Frequency Band: %d\n", config.band);
+    Serial.print("~~ Selected Radio Frequency Band ");
+    Serial.print(config.band);
 
 #ifdef CDPCFG_SPARKFUN_APOLLO3
     lora = new Module(config.ss, config.di1, config.rst, config.di0, SPI1);
