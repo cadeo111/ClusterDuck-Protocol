@@ -32,7 +32,10 @@ volatile bool interruptFired = false;
 
 DuckRadio::DuckRadio() {}
 
+
 int DuckRadio::setupRadio(LoraConfigParams config) {
+    logwarn_f("Radio Selected Frequency Band: %f", config.band);
+
 #ifdef CDPCFG_SPARKFUN_APOLLO3
     lora = new Module(config.ss, config.di1, config.rst, config.di0, SPI1);
 #elif CDPCFG_PIN_LORA_SPI_SCK
@@ -133,7 +136,7 @@ void DuckRadio::setSyncWord(byte syncWord) {
     lora.startReceive();
 }
 
-int DuckRadio::readReceivedData(std::vector <byte> *packetBytes) {
+int DuckRadio::readReceivedData(std::vector<byte> *packetBytes) {
 
     int packet_length = 0;
     int err = DUCK_ERR_NONE;
@@ -178,11 +181,11 @@ int DuckRadio::readReceivedData(std::vector <byte> *packetBytes) {
 
     loginfo("readReceivedData: checking data section CRC");
 
-    std::vector <byte> data_section;
+    std::vector<byte> data_section;
     data_section.insert(data_section.end(), &data[DATA_POS], &data[packet_length]);
     uint32_t packet_data_crc = duckutils::toUnit32(&data[DATA_CRC_POS]);
     uint32_t computed_data_crc =
-                     CRC32::calculate(data_section.data(), data_section.size());
+            CRC32::calculate(data_section.data(), data_section.size());
     if (computed_data_crc != packet_data_crc) {
         logerr("ERROR data crc mismatch: received: " + String(packet_data_crc) +
                " calculated:" + String(computed_data_crc));
@@ -214,7 +217,7 @@ int DuckRadio::relayPacket(DuckPacket *packet) {
                              packet->getBuffer().size());
 }
 
-int DuckRadio::sendData(std::vector <byte> data) {
+int DuckRadio::sendData(std::vector<byte> data) {
 
     return startTransmitData(data.data(), data.size());
 }
@@ -247,7 +250,7 @@ void DuckRadio::setChannel(int channelNum, bool isEU) {
     logdbg(channelNum);
 
     int err;
-    if(isEU) {
+    if (isEU) {
         switch (channelNum) {
             case 2:
                 loginfo("Set channel: " + String(channelNum));
