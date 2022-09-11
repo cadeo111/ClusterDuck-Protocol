@@ -49,7 +49,7 @@ public:
      *
      * @returns DUCK_ERR_NONE if setup is successfull, an error code otherwise.
      */
-    int setupWithDefaults(std::vector<byte> deviceId);
+    int setupWithDefaults(std::vector<byte> deviceId, float radioBand );
 
     /**
      * @brief Get the DuckType

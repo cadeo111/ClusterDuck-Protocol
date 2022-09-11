@@ -5,7 +5,7 @@
 #include "../MamaDuck.h"
 #include "../MemoryFree.h"
 
-int MamaDuck::setupWithDefaults(std::vector<byte> deviceId) {
+int MamaDuck::setupWithDefaults(std::vector<byte> deviceId, float radioBand) {
 
     int err = AgnoDuck::setupWithDefaults(deviceId);
     if (err != DUCK_ERR_NONE) {
@@ -13,7 +13,7 @@ int MamaDuck::setupWithDefaults(std::vector<byte> deviceId) {
         return err;
     }
 
-    err = setupRadio();
+    err = setupRadio(radioBand);
     if (err != DUCK_ERR_NONE) {
         logerr("ERROR setupWithDefaults rc = " + String(err));
         return err;
